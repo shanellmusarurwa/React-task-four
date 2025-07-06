@@ -1,0 +1,59 @@
+/* src/components/Auth/SocialAuth.css */
+
+.social-auth-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.social-button:hover {
+  background-color: #f8f9fa;
+}
+
+.social-button.google {
+  color: #db4437;
+  border-color: #db4437;
+}
+
+.social-button.google:hover {
+  background-color: rgba(219, 68, 55, 0.1);
+}
+
+.social-button.facebook {
+  color: #4267b2;
+  border-color: #4267b2;
+}
+
+.social-button.facebook:hover {
+  background-color: rgba(66, 103, 178, 0.1);
+}
+
+.social-button.apple {
+  color: #000000;
+  border-color: #000000;
+}
+
+.social-button.apple:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.social-icon {
+  font-size: 18px;
+}
