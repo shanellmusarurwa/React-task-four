@@ -59,25 +59,22 @@ const Login = () =>{
           </button>
         </div>
 
-        {/* Login Title with Opacity */}
-        <h1 className="login-title" style={{ opacity: 0.8 }}>Log in</h1>
+       
         
         {/* Social Icons */}
         <div className="social-icons-top">
+          <div className="social-icon-circle">
+            <FaApple className="social-icon" />
+          </div>
           <div className="social-icon-circle">
             <FaFacebookF className="social-icon" />
           </div>
           <div className="social-icon-circle">
             <FaGoogle className="social-icon" />
           </div>
-          <div className="social-icon-circle">
-            <FaApple className="social-icon" />
-          </div>
         </div>
 
-        <div className="divider">
-          <span>or</span>
-        </div>
+        <p className="register-subtitle">or register with email</p>
 
         {error && <div className="error-message">{error}</div>}
 

@@ -62,19 +62,18 @@ const Register = () => {
           </button>
         </div>
 
-        {/* Lighter title with opacity */}
-        <h1 className="register-title" style={{ opacity: 0.7 }}>Register</h1>
+        
         
         {/* Social Icons */}
         <div className="social-icons-top">
+          <div className="social-icon-circle">
+            <FaApple className="social-icon" />
+          </div>
           <div className="social-icon-circle">
             <FaFacebookF className="social-icon" />
           </div>
           <div className="social-icon-circle">
             <FaGoogle className="social-icon" />
-          </div>
-          <div className="social-icon-circle">
-            <FaApple className="social-icon" />
           </div>
         </div>
 

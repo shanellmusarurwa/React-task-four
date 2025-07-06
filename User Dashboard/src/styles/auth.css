@@ -412,13 +412,13 @@
   align-items: center;
   min-height: 100vh;
   background-color: #f5f7fa;
-  padding: 10px;
+  padding: 5px;
 }
 
 .register-card {
   background: white;
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
@@ -448,14 +448,14 @@
   font-weight: 500;
 }
 
-/* Register Title with Opacity */
+/* Register Title with Opacity 
 .register-title {
   font-size: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
   color: #333;
   font-weight: 400;
-}
+}*/
 
 /* Social Icons */
 .social-icons-top {
@@ -488,7 +488,7 @@
 }
 
 .register-subtitle {
-  text-align: center;
+ 
   color: #666;
   margin-bottom: 1.5rem;
   font-size: 0.9rem;
