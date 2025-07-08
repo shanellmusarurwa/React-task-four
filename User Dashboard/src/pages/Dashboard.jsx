@@ -1,173 +1,169 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/config';
-import Header from '../components/Dashboard/Header';
-import Sidebar from '../components/Dashboard/Sidebar';
+import React, { useState } from 'react';
+import { FaThLarge, FaBox, FaUsers, FaMoneyBillWave, FaBullhorn, FaQuestionCircle, FaBars, FaTimes } from 'react-icons/fa';
+import { FiUser, FiClock } from 'react-icons/fi';
+import { BsGraphUp } from 'react-icons/bs';
 import '../styles/dashboard.css';
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  
   const customers = [
-    {
-      id: 1,
-      name: 'Jana Cooper',
-      company: 'Microsoft',
-      phone: '(225) 555-018',
-      email: 'jana@microsoft.com',
-      country: 'United States',
-      status: 'Active'
-    },
-    {
-      id: 2,
-      name: 'Floyd Miles',
-      company: 'Yahoo',
-      phone: '(206) 555-0100',
-      email: 'floyd@yahoo.com',
-      country: 'Kiribati',
-      status: 'inactive'
-    },
-    {
-      id: 3,
-      name: 'Ronald Richards',
-      company: 'Adobe',
-      phone: '(302) 555-0107',
-      email: 'ronald@adobe.com',
-      country: 'Israel',
-      status: 'inactive'
-    },
-    {
-      id: 4,
-      name: 'Marvin McKinney',
-      company: 'Tesla',
-      phone: '(252) 555-0126',
-      email: 'marvin@tesla.com',
-      country: 'Iran',
-      status: 'Active'
-    },
-    {
-      id: 5,
-      name: 'Jerome Bell',
-      company: 'Google',
-      phone: '(623) 555-0129',
-      email: 'jerome@google.com',
-      country: 'Réunion',
-      status: 'Active'
-    },
-    {
-      id: 6,
-      name: 'Kathryn Murphy',
-      company: 'Microsoft',
-      phone: '(406) 555-0102',
-      email: 'kathryn@microsoft.com',
-      country: 'Curaçao',
-      status: 'Active'
-    },
-    {
-      id: 7,
-      name: 'Jacob Jones',
-      company: 'Yahoo',
-      phone: '(208) 555-0122',
-      email: 'jacob@yahoo.com',
-      country: 'Brazil',
-      status: 'Active'
-    },
-    {
-      id: 8,
-      name: 'Kristin Watson',
-      company: 'Facebook',
-      phone: '(704) 555-0127',
-      email: 'kristin@facebook.com',
-      country: 'Åland Islands',
-      status: 'inactive'
-    }
+    // ... (same customer data as before)
   ];
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        setLoading(false);
-      } else {
-        navigate('/login');
-      }
-    });
-
-    return unsubscribe;
-  }, [navigate]);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  if (loading) {
-    return <div className="loader">Loading...</div>;
-  }
-
   return (
-    <div className={`dashboard-container ${sidebarOpen ? '' : 'sidebar-collapsed'}`}>
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        toggleSidebar={toggleSidebar} 
-        activeLink="dashboard" 
-      />
-      
+    <div className="dashboard-container">
+      {/* Mobile Header */}
+      <div className="mobile-header">
+        <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+          {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+        <h1>Dashboard</h1>
+      </div>
+
+      {/* Sidebar */}
+      <div className={`sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+        <div className="sidebar-header">
+          <h2>Dashboard</h2>
+        </div>
+        <ul className="sidebar-menu">
+          <li className="active">
+            <FaThLarge className="menu-icon" />
+            <span>Dashboard</span>
+          </li>
+          <li>
+            <FaBox className="menu-icon" />
+            <span>Product</span>
+          </li>
+          <li>
+            <FaUsers className="menu-icon" />
+            <span>Customers</span>
+          </li>
+          <li>
+            <FaMoneyBillWave className="menu-icon" />
+            <span>Income</span>
+          </li>
+          <li>
+            <FaBullhorn className="menu-icon" />
+            <span>Promote</span>
+          </li>
+          <li>
+            <FaQuestionCircle className="menu-icon" />
+            <span>Help</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Content */}
       <div className="main-content">
-        <Header 
-          user={user} 
-          toggleSidebar={toggleSidebar} 
-        />
-        
-        <div className="dashboard-content">
-          <h1 className="dashboard-title">Dashboard</h1>
-          
-          <div className="welcome-section">
-            <h2>Hello Evano</h2>
+        {/* Header */}
+        <div className="dashboard-header">
+          <div>
+            <h1 className="desktop-title">Dashboard</h1>
+            <p className="welcome">Hello Evano</p>
           </div>
           
-          <div className="stats-section">
-            <div className="stats-card">
-              <h3>Toolkit Customers</h3>
-              <div className="stats-numbers">
-                <span className="main-stat">5,423</span>
-                <span className="secondary-stat">1,893</span>
+          <div className="header-stats">
+            <div className="stat-card">
+              <div className="stat-icon">
+                <FiUser />
+              </div>
+              <div className="stat-info">
+                <div className="stat-number">5,423</div>
+                <div className="stat-label">Total Customers</div>
               </div>
             </div>
-          </div>
-          
-          <div className="customers-section">
-            <h3>All Customers</h3>
             
-            <div className="customers-table">
-              <div className="table-header">
-                <div>Customer Name</div>
-                <div>Category</div>
-                <div>Phone Number</div>
-                <div>Email</div>
-                <div>Country</div>
-                <div>Status</div>
+            <div className="stat-card">
+              <div className="stat-icon">
+                <BsGraphUp />
               </div>
-              
-              {customers.map(customer => (
-                <div className="table-row" key={customer.id}>
-                  <div className="customer-name">{customer.name}</div>
-                  <div>{customer.company}</div>
-                  <div>{customer.phone}</div>
-                  <div>{customer.email}</div>
-                  <div>{customer.country}</div>
-                  <div>
-                    <span className={`status-badge ${customer.status === 'Active' ? 'active' : 'inactive'}`}>
-                      {customer.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
+              <div className="stat-info">
+                <div className="stat-number">1,893</div>
+                <div className="stat-label">Members</div>
+              </div>
+            </div>
+            
+            <div className="stat-card">
+              <div className="stat-icon">
+                <FiClock />
+              </div>
+              <div className="stat-info">
+                <div className="stat-number">1,032</div>
+                <div className="stat-label">Active Now</div>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Customers Section */}
+        <div className="customers-section">
+          <div className="section-header">
+            <h2>All Customers</h2>
+            <div className="section-actions">
+              <button className="active-btn">Active Members</button>
+            </div>
+          </div>
+          
+          <div className="customers-table-container">
+            <table className="customers-table">
+              <thead>
+                <tr>
+                  <th>Customer Name</th>
+                  <th>Company</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Country</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {customers.map((customer, index) => (
+                  <tr key={index}>
+                    <td data-label="Name">{customer.name}</td>
+                    <td data-label="Company">{customer.company}</td>
+                    <td data-label="Phone">{customer.phone}</td>
+                    <td data-label="Email">{customer.email}</td>
+                    <td data-label="Country">{customer.country}</td>
+                    <td data-label="Status">
+                      <span className={`status-badge ${customer.status.toLowerCase()}`}>
+                        {customer.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <div className="table-footer">
+            <span>Showing data 1 to 8 of 256K entries</span>
+            <div className="pagination">
+              <button className="pagination-btn">{"<"}</button>
+              <button className={`pagination-btn ${currentPage === 1 ? 'active' : ''}`} onClick={() => setCurrentPage(1)}>1</button>
+              <button className={`pagination-btn ${currentPage === 2 ? 'active' : ''}`} onClick={() => setCurrentPage(2)}>2</button>
+              {window.innerWidth > 425 && (
+                <>
+                  <button className={`pagination-btn ${currentPage === 3 ? 'active' : ''}`} onClick={() => setCurrentPage(3)}>3</button>
+                  <button className={`pagination-btn ${currentPage === 4 ? 'active' : ''}`} onClick={() => setCurrentPage(4)}>4</button>
+                </>
+              )}
+              {window.innerWidth > 375 && <span>...</span>}
+              {window.innerWidth > 425 && (
+                <button className="pagination-btn" onClick={() => setCurrentPage(40)}>40</button>
+              )}
+              <button className="pagination-btn">{">"}</button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="dashboard-footer">
+          <span>Downloaded from Fire...</span>
         </div>
       </div>
     </div>

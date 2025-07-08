@@ -3,10 +3,11 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useRegistration } from '../context/RegistrationContext';
+import * as Yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { registerSchema } from '../utils/validationSchemas';
-import { FaEnvelope, FaLock, FaFacebookF, FaTwitter, FaGoogle, FaApple } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 import '../styles/auth.css';
 
 
@@ -21,28 +22,28 @@ const Register = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
 
+   const validationSchema = Yup.object({
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(8, 'Must be at least 8 characters')
+      .required('Password is required'),
+  });
+
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
+      acceptPromotions: false
     },
-    validationSchema: registerSchema,
-    onSubmit: async (values) => {
-    setLoading(true);
-    setError('');
-    try {
-      await register(values.email, values.password);
-      updateRegistrationData({ email: values.email })
+    validationSchema,
+    onSubmit: (values) => {
       navigate('/personal-info');
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
     }
-  },
   });
-
+  
   return (
     <div className="register-container">
       <div className="register-card">

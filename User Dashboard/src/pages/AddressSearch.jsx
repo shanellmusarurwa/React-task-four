@@ -3,35 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import '../styles/auth.css';
 
-const AddAddress = () => {
+const AddressDetails = () => {
   const navigate = useNavigate();
 
   // Form validation schema
   const validationSchema = Yup.object().shape({
-    address: Yup.string().required('Address is required'),
-    locationType: Yup.string().required('Please select an option'),
-    shareOptions: Yup.object().shape({
-      peopleNearby: Yup.boolean(),
-      deliveryTime: Yup.boolean(),
-      shippingCosts: Yup.boolean()
-    })
+    streetAddress: Yup.string().required('Street address is required'),
+    apartment: Yup.string(),
+    city: Yup.string().required('City is required'),
+    state: Yup.string().required('State is required'),
+    zipCode: Yup.string()
+      .required('Zip code is required')
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .min(5, 'Must be exactly 5 digits')
+      .max(5, 'Must be exactly 5 digits')
   });
 
   const formik = useFormik({
     initialValues: {
-      address: '',
-      locationType: '',
-      shareOptions: {
-        peopleNearby: false,
-        deliveryTime: true,
-        shippingCosts: false
-      }
+      streetAddress: '',
+      apartment: '',
+      city: '',
+      state: '',
+      zipCode: ''
     },
     validationSchema,
     onSubmit: (values) => {
       // Handle form submission
       console.log(values);
-      navigate('/address-details'); // Changed from '/registration-complete' to '/address-details'
+      navigate('/registration-success'); // Changed from '/registration-complete' to '/registration-success'
     },
   });
 
@@ -44,90 +44,94 @@ const AddAddress = () => {
         </div>
 
         <form onSubmit={formik.handleSubmit} className="address-form">
-          {/* Address Search */}
+          {/* Street Address */}
           <div className="input-group">
-            <label htmlFor="address">Search for address</label>
+            <label htmlFor="streetAddress">Street address</label>
             <input
-              id="address"
-              name="address"
+              id="streetAddress"
+              name="streetAddress"
               type="text"
-              placeholder="Enter your address"
+              placeholder="319 Balnbridge Street"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.address}
-              className={formik.touched.address && formik.errors.address ? 'error' : ''}
+              value={formik.values.streetAddress}
+              className={formik.touched.streetAddress && formik.errors.streetAddress ? 'error' : ''}
             />
-            {formik.touched.address && formik.errors.address && (
-              <div className="error-message">{formik.errors.address}</div>
+            {formik.touched.streetAddress && formik.errors.streetAddress && (
+              <div className="error-message">{formik.errors.streetAddress}</div>
             )}
           </div>
 
-          {/* Privacy Notice */}
-          <div className="privacy-notice">
-            Your address is not visible to other users
+          {/* Apartment (Optional) */}
+          <div className="input-group">
+            <label htmlFor="apartment">Apartment <span className="optional">(Optional)</span></label>
+            <input
+              id="apartment"
+              name="apartment"
+              type="text"
+              placeholder="Apt, suite, unit, etc."
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.apartment}
+            />
           </div>
 
-          {/* Location Options */}
-          <div className="location-options">
-            <button
-              type="button"
-              className={`location-option ${formik.values.locationType === 'current' ? 'active' : ''}`}
-              onClick={() => formik.setFieldValue('locationType', 'current')}
-            >
-              Use current location
-            </button>
-            <button
-              type="button"
-              className={`location-option ${formik.values.locationType === 'manual' ? 'active' : ''}`}
-              onClick={() => formik.setFieldValue('locationType', 'manual')}
-            >
-              Add manually
-            </button>
+          {/* City */}
+          <div className="input-group">
+            <label htmlFor="city">City</label>
+            <input
+              id="city"
+              name="city"
+              type="text"
+              placeholder="New York City"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.city}
+              className={formik.touched.city && formik.errors.city ? 'error' : ''}
+            />
+            {formik.touched.city && formik.errors.city && (
+              <div className="error-message">{formik.errors.city}</div>
+            )}
           </div>
-          {formik.touched.locationType && formik.errors.locationType && (
-            <div className="error-message">{formik.errors.locationType}</div>
-          )}
 
-          {/* Sharing Options */}
-          <div className="sharing-section">
-            <h3>Sharing your address shows:</h3>
-            <div className="checkbox-option">
+          {/* State and Zip Code - Side by Side */}
+          <div className="row-input-group">
+            <div className="input-group half-width">
+              <label htmlFor="state">State</label>
               <input
-                type="checkbox"
-                id="peopleNearby"
-                name="shareOptions.peopleNearby"
-                checked={formik.values.shareOptions.peopleNearby}
+                id="state"
+                name="state"
+                type="text"
+                placeholder="New York"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                value={formik.values.state}
+                className={formik.touched.state && formik.errors.state ? 'error' : ''}
               />
-              <label htmlFor="peopleNearby">People near you</label>
+              {formik.touched.state && formik.errors.state && (
+                <div className="error-message">{formik.errors.state}</div>
+              )}
             </div>
-            <div className="checkbox-option">
+            <div className="input-group half-width">
+              <label htmlFor="zipCode">Zip code</label>
               <input
-                type="checkbox"
-                id="deliveryTime"
-                name="shareOptions.deliveryTime"
-                checked={formik.values.shareOptions.deliveryTime}
+                id="zipCode"
+                name="zipCode"
+                type="text"
+                placeholder="11233"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                value={formik.values.zipCode}
+                className={formik.touched.zipCode && formik.errors.zipCode ? 'error' : ''}
               />
-              <label htmlFor="deliveryTime">Estimated delivery time</label>
-            </div>
-            <div className="checkbox-option">
-              <input
-                type="checkbox"
-                id="shippingCosts"
-                name="shareOptions.shippingCosts"
-                checked={formik.values.shareOptions.shippingCosts}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <label htmlFor="shippingCosts">Estimated shipping costs</label>
+              {formik.touched.zipCode && formik.errors.zipCode && (
+                <div className="error-message">{formik.errors.zipCode}</div>
+              )}
             </div>
           </div>
 
           <button type="submit" className="save-btn">
-            Complete Registration
+            Save information
           </button>
         </form>
       </div>
@@ -135,4 +139,4 @@ const AddAddress = () => {
   );
 };
 
-export default AddAddress;
+export default AddressDetails;

@@ -10,7 +10,7 @@ const RegistrationSuccess = () => {
         {/* Image from Unsplash */}
         <div className="success-image">
           <img 
-            src="./public/successful.png" 
+            src="/successful.png" 
             alt="Success" 
           />
         </div>
