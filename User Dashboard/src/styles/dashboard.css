@@ -332,6 +332,22 @@ td:empty::before {
   color: #999;
 }
 
+/* Logout button styling */
+.sidebar-menu li:last-child {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  color: #f44336;
+}
+
+.sidebar-menu li:last-child:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.sidebar-menu li:last-child .menu-icon {
+  color: #f44336;
+}
+
 /* Footer */
 .dashboard-footer {
   margin-top: 20px;
