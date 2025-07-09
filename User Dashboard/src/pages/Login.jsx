@@ -28,24 +28,34 @@ const Login = () =>{
       .required('Password is required'),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    validationSchema,
-    onSubmit: async (values) => {
-      try {
-        setLoading(true);
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-        navigate('/dashboard');
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+const formik = useFormik({
+  initialValues: {
+    email: '',
+    password: ''
+  },
+  validationSchema,
+  onSubmit: async (values) => {
+    try {
+      setLoading(true);
+      setError(''); 
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Login error:', err); 
+      if (err.code === 'auth/invalid-credential') {
+        setError('Invalid email or password. Please try again.');
+      } else if (err.code === 'auth/user-not-found') {
+        setError('No account found with this email.');
+      } else if (err.code === 'auth/wrong-password') {
+        setError('Incorrect password. Please try again.');
+      } else {
+        setError('Login failed. Please try again later.');
       }
+    } finally {
+      setLoading(false);
     }
-  });
+  }
+});
 
   return (
     <div className="login-container">

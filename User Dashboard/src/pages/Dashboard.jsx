@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaThLarge, FaBox, FaUsers, FaMoneyBillWave, FaBullhorn, FaQuestionCircle, FaBars, FaTimes } from 'react-icons/fa';
@@ -12,7 +13,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const customers = [
-    // ... (same customer data as before)
+    
   ];
 
   const toggleMobileMenu = () => {
@@ -21,17 +22,17 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      // Sign out from Firebase
+      
       await auth.signOut();
       
-      // Clear any local storage/session storage if needed
+      
       localStorage.removeItem('userToken');
       sessionStorage.removeItem('userSession');
       
-      // Redirect to login page
+      
       navigate('/login');
       
-      // Optional: show success message
+      
       alert('You have been logged out successfully');
     } catch (error) {
       console.error('Logout error:', error);
