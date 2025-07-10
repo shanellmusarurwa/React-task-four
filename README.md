@@ -1,2 +1,2 @@
-https://user-dashboard-xi-nine.vercel.app/register
-https://user-dashboard-xi-nine.vercel.app
+https://user-dashboard-seven-beige.vercel.app/
+https://user-dashboard-seven-beige.vercel.app/
