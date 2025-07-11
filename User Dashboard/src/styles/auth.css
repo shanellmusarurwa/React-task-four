@@ -313,7 +313,10 @@
 
 .social-icon {
   font-size: 1rem;
-  color: #555;
+  
+}
+.social-icon-1{
+  color: #0069d9;
 }
 
 /* Divider */
@@ -380,13 +383,14 @@
   background: #4361ee;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 20px;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 0.5rem;
+   
 }
 
 .login-btn:hover {
@@ -485,8 +489,13 @@
 
 .social-icon {
   font-size: 1rem;
-  color: #555;
+  
 }
+
+.social-icon-1{
+  color: #0069d9;
+}
+
 
 .register-subtitle {
  
@@ -535,7 +544,7 @@
 
 .password-hint {
   font-size: 0.8rem;
-  color: #999;
+  color: #bdbdbd;
   margin-top: 0.25rem;
 }
 
@@ -671,12 +680,13 @@
 
 .gender-options {
   display: flex;
+  align-self: start;
   gap: 1.5rem;
   margin-top: 0.5rem;
 }
 
 .radio-option {
-  display: flex;
+  display: inline;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
@@ -732,6 +742,225 @@
   color: #f72585;
   font-size: 0.8rem;
   margin-top: 0.25rem;
+}
+
+.address-form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+.address-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.address-form-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.step-indicator {
+  color: #666;
+  font-size: 14px;
+}
+
+.search-section {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.search-field {
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  color: #666;
+}
+
+.privacy-note {
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.location-button, .manual-button {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.location-button:hover, .manual-button:hover {
+  background-color: #f5f5f5;
+}
+
+.location-button.loading {
+  background-color: #f5f5f5;
+  cursor: wait;
+}
+
+.button-icon {
+  margin-right: 8px;
+  color: #0069d9;
+  
+}
+span{
+  color: #0069d9;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 14px;
+  margin: 5px 0 15px;
+}
+
+.manual-address-form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0069d9;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Checkbox styles remain the same as previous version */
+.sharing-options {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.sharing-options h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+}
+
+.checkbox-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.checkbox-option:hover input ~ .checkmark {
+  background-color: #f1f1f1;
+}
+
+.checkbox-option input:checked ~ .checkmark {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-option input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-option .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 /* Address Page Styles */

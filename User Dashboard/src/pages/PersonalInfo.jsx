@@ -34,7 +34,7 @@ const PersonalInfo = () => {
     onSubmit: (values) => {
       // Handle form submission
       console.log(values);
-      navigate('/address-search'); // Changed from '/next-step' to '/address-search'
+      navigate('/address-form'); // Changed from '/next-step' to '/address-search'
     },
   });
 
@@ -69,8 +69,9 @@ const PersonalInfo = () => {
 
           {/* Gender */}
           <div className="input-group">
-            <label>Gender</label>
+
             <div className="gender-options">
+               <label>Gender</label>
               <label className="radio-option">
                 <input
                   type="radio"
@@ -120,8 +121,8 @@ const PersonalInfo = () => {
                 onChange={(e) => setCountryCode(e.target.value)}
                 className="country-code"
               >
-                <option value="+598">+598 (UY)</option>
-                <option value="+1">+1 (US)</option>
+                <option value="+27">+27 (SA)</option>
+                <option value="+263">+263 (ZIM)</option>
                 <option value="+44">+44 (UK)</option>
                 {/* Add more country codes as needed */}
               </select>

@@ -7,7 +7,8 @@ import * as Yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { registerSchema } from '../utils/validationSchemas';
-import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+import { FaFacebookF, FaApple } from 'react-icons/fa';
+import { FcGoogle } from "react-icons/fc";
 import '../styles/auth.css';
 
 
@@ -47,7 +48,6 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-card">
-        {/* Tabs for switching between Register and Login */}
         <div className="auth-tabs">
           <button
             className={`tab ${activeTab === 'register' ? 'active' : ''}`}
@@ -71,10 +71,10 @@ const Register = () => {
             <FaApple className="social-icon" />
           </div>
           <div className="social-icon-circle">
-            <FaFacebookF className="social-icon" />
+            <FaFacebookF className="social-icon-1" />
           </div>
           <div className="social-icon-circle">
-            <FaGoogle className="social-icon" />
+            <FcGoogle className="social-icon" />
           </div>
         </div>
 

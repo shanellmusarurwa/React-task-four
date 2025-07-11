@@ -6,6 +6,7 @@ const RegistrationProgress = () => {
   const steps = [
     { path: '/register', label: 'Account' },
     { path: '/personal-info', label: 'Personal Info' },
+    { path: '/address-form', label: 'Address Form'},
     { path: '/address-search', label: 'Address' },
     { path: '/address-details', label: 'Details' },
     { path: '/registration-success', label: 'Complete' }

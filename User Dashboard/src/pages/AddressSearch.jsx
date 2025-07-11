@@ -31,7 +31,7 @@ const AddressDetails = () => {
     onSubmit: (values) => {
       // Handle form submission
       console.log(values);
-      navigate('/registration-success'); // Changed from '/registration-complete' to '/registration-success'
+      navigate('/registration-success'); 
     },
   });
 

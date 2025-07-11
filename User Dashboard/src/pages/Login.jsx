@@ -7,7 +7,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { loginSchema } from '../utils/validationSchemas';
-import { FaEnvelope, FaLock, FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebookF, FaApple } from 'react-icons/fa';
 import '../styles/auth.css';
 
 
@@ -85,10 +86,10 @@ const formik = useFormik({
             <FaApple className="social-icon" />
           </div>
           <div className="social-icon-circle">
-            <FaFacebookF className="social-icon" />
+            <FaFacebookF className="social-icon-1" />
           </div>
           <div className="social-icon-circle">
-            <FaGoogle className="social-icon" />
+            <FcGoogle className="social-icon" />
           </div>
         </div>
 

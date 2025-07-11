@@ -7,6 +7,7 @@ import PublicRoute from './utils/PublicRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PersonalInfo from './pages/PersonalInfo';
+import AddressForm from './pages/AddressForm';
 import AddressSearch from './pages/AddressSearch';
 import AddressDetails from './pages/AddressDetails';
 import RegistrationSuccess from './pages/RegistrationSuccess';
@@ -23,6 +24,7 @@ function App() {
             <Route element={<PublicRoute />}>
               <Route path="/register" element={<Register />} />
               <Route path="/personal-info" element={<PersonalInfo />} />
+              <Route path="/address-form" element={<AddressForm />} />
               <Route path="/address-search" element={<AddressSearch />} />
               <Route path="/address-details" element={<AddressDetails />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
