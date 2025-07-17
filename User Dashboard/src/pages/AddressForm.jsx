@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { FaLocationArrow, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
 
-const AddressForm = () => {
-  const [showManualForm, setShowManualForm] = useState(false);
+const AddressForm = () => {;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [locationError, setLocationError] = useState(null);
   const navigate = useNavigate();
@@ -69,7 +68,6 @@ const AddressForm = () => {
               postalCode: data.address.postcode || '',
               country: data.address.country || ''
             });
-            setShowManualForm(true);
           }
         } catch (error) {
           setLocationError('Failed to get address from coordinates');
@@ -121,7 +119,7 @@ const AddressForm = () => {
         </button>
         <button 
           className="manual-button"
-          onClick={() => setShowManualForm(true)}
+          onClick={() => navigate('/address-search')}
           type="button"
         >
           <FaMapMarkerAlt className="button-icon" />
@@ -133,94 +131,7 @@ const AddressForm = () => {
         <div className="error-message">{locationError}</div>
       )}
 
-      {showManualForm && (
-        <form onSubmit={formik.handleSubmit} className="manual-address-form">
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <input
-              id="address"
-              name="address"
-              type="text"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.address}
-              placeholder="Street address"
-            />
-            {formik.touched.address && formik.errors.address ? (
-              <div className="error-message">{formik.errors.address}</div>
-            ) : null}
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="city">City</label>
-              <input
-                id="city"
-                name="city"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.city}
-                placeholder="City"
-              />
-              {formik.touched.city && formik.errors.city ? (
-                <div className="error-message">{formik.errors.city}</div>
-              ) : null}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="state">State/Province</label>
-              <input
-                id="state"
-                name="state"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.state}
-                placeholder="State/Province"
-              />
-              {formik.touched.state && formik.errors.state ? (
-                <div className="error-message">{formik.errors.state}</div>
-              ) : null}
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="postalCode">Postal Code</label>
-              <input
-                id="postalCode"
-                name="postalCode"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.postalCode}
-                placeholder="Postal code"
-              />
-              {formik.touched.postalCode && formik.errors.postalCode ? (
-                <div className="error-message">{formik.errors.postalCode}</div>
-              ) : null}
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="country">Country</label>
-              <input
-                id="country"
-                name="country"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.country}
-                placeholder="Country"
-              />
-              {formik.touched.country && formik.errors.country ? (
-                <div className="error-message">{formik.errors.country}</div>
-              ) : null}
-            </div>
-          </div>
-        </form>
-      )}
-
+    
       <div className="sharing-options">
         <h3>Sharing your address shows:</h3>
         
@@ -257,17 +168,6 @@ const AddressForm = () => {
           Estimate shipping costs
         </label>
       </div>
-
-      {showManualForm && (
-        <button 
-          type="submit" 
-          className="submit-button"
-          onClick={formik.handleSubmit}
-          disabled={!formik.isValid || formik.isSubmitting}
-        >
-          Save Address
-        </button>
-      )}
     </div>
   );
 };

@@ -251,6 +251,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Auth Tabs */
@@ -279,9 +281,9 @@
 
 /* Login Title */
 .login-title {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   color: #333;
   font-weight: 400;
 }
@@ -290,13 +292,13 @@
 .social-icons-top {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1.5rem 0;
 }
 
 .social-icon-circle {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -326,6 +328,8 @@
   margin: 1.5rem 0;
   color: #999;
   font-size: 0.9rem;
+  border-top: 1px solid #eee;
+  margin: 1rem 0;
 }
 
 .divider::before,
@@ -345,19 +349,23 @@
 
 /* Form Styles */
 .login-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1 rem;
+  margin-top: 1rem;
 }
 
 .input-group input {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #eee;
+  box-sizing: border-box;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background-color: #f8f9fa;
+  margin-top: 0;
 }
 
 .input-group input:focus {
@@ -377,19 +385,22 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   color: #666;
+  margin-top: 0.5rem;
 }
 
-.login-btn {
+.btn {
   background: #4361ee;
   color: white;
   border: none;
-  padding: 20px;
+  width: 100%;
+  padding: 12px 16px;
+  box-sizing: border-box;
   border-radius: 8px;
   font-size: 1.2rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
+  display: block;
    
 }
 
@@ -417,7 +428,7 @@
   align-items: center;
   min-height: 100vh;
   background-color: #f5f7fa;
-  padding: 5px;
+  padding: 10px;
 }
 
 .register-card {
@@ -471,8 +482,8 @@
 }
 
 .social-icon-circle {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -507,7 +518,7 @@
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
 }
 
 .input-group {
@@ -548,7 +559,7 @@
   margin-top: 0.25rem;
 }
 
-.register-btn {
+.btn {
   background: #4361ee;
   color: white;
   border: none;
@@ -598,152 +609,287 @@
 }
 
 /* Personal Info Styles */
-.personal-info-container {
+.personal-info-container{
   display: flex;
+  border-radius: 8px;
   justify-content: center;
-  align-items: center;
+  align-items: center;                  
   min-height: 100vh;
   background-color: #f5f7fa;
-  padding: 10px;
+  padding: 16px;
 }
 
 .personal-info-card {
   background: white;
   border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 500px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width:100%;
+  max-width: 450px;
+
 }
 
 .progress-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
 }
 
 .progress-header h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #333;
   margin: 0;
+  font-weight: 600;
 }
 
 .progress-step {
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .personal-info-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
-.input-group {
+/* Input Fields */
+.input-field,
+.gender-field,
+.phone-field,
+.birthday-field {
+  width: 100%;
+}
+
+.birthday-field{
+  margin-top: 16px;
+}
+
+.birthday-text{
+  flex: 1;
+  font-size: 1rem;
+  color: #333;
+}
+
+.right-elements{
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap:12px;
 }
 
-.input-group label {
-  font-size: 0.9rem;
-  color: #555;
-  font-weight: 500;
+.optional-tex{
+  font-size: 0.75rem;
+  color: #999 !important;
+  
 }
 
-.optional {
-  color: #999;
-  font-weight: 400;
+.calender-icon{
+  color: #666;
+  font-size: 0.9rem
 }
 
-.input-group input,
-.input-group select {
-  padding: 12px 16px;
-  border: 1px solid #eee;
+.date-input-container{
+  position:relative;
+  height: 48px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+
+}
+
+.date-input-container input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+
+}
+.date-content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+.input-field input,
+.phone-input-container,
+.date-input-container {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  background-color: #f8f9fa;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: #4361ee;
-  background-color: white;
-  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
-}
-
-.input-group input.error {
-  border-color: #f72585;
-}
-
-.gender-options {
+  position: relative;
   display: flex;
-  align-self: start;
-  gap: 1.5rem;
-  margin-top: 0.5rem;
+  align-items: center;
+}
+
+/* Gender Field */
+.gender-field {
+  margin-bottom: 8px;
+}
+
+.gender-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1rem;
+  color: #333 !important;
 }
 
 .radio-option {
-  display: inline;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   cursor: pointer;
 }
 
+.radio-option input[type="radio"] {
+  margin: 0;
+}
+
 .radio-label {
-  font-size: 0.9rem;
+  font-size: 1rem;
+}
+
+/* Visibility Notice */
+.visibility-notice {
+  margin: 8px 0;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Phone Field */
+.phone-input-container {
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.country-code-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  border-right: 1px solid #ddd;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown-icon {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.country-code-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.country-code-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.country-code-option:hover {
+  background: #f5f5f5;
+}
+
+.phone-input-container input {
+  border: none;
+  padding-left: 12px;
+  flex: 1;
+  height: 100%;
+}
+
+/* Birthday Field */
+.date-input-container {
+  position: relative;
+  padding: 0 16px;
+}
+
+.date-input-container input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.date-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-label span {
+  font-size: 1rem;
   color: #555;
 }
 
-.visibility-notice {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+.optional {
+  font-size: 0.75rem;
+  color: #999;
+
+}
+
+.calendar-icon {
   color: #666;
-  margin: -0.5rem 0 1rem;
-}
-
-.phone-input {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.country-code {
-  width: 100px;
+  right: 16px;
 }
 
 .birthday-note {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #999;
-  margin-top: 0.5rem;
+  margin-top: 8px;
 }
 
+/* Save Button */
 .save-btn {
-  background: #4361ee;
+  width: 100%;
+  padding: 14px;
+  background-color: #4361ee;
   color: white;
   border: none;
-  padding: 12px;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
+  margin-top: 8px;
 }
 
 .save-btn:hover {
-  background: #3a56d4;
+  background-color: #3a56d4;
 }
 
 .error-message {
   color: #f72585;
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  margin-top: 4px;
 }
-
 .address-form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -1126,19 +1272,33 @@ span{
 /* Address Details Specific Styles */
 .row-input-group {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 0;
+}
+input{
+  margin-bottom: 0.25rem;
 }
 
 .half-width {
   flex: 1;
+  margin-bottom: 0.25rem;
 }
 
 .optional {
   color: #999;
   font-weight: 400;
   font-size: 0.8em;
+  margin-bottom: 0.25rem;
 }
-
+.address-form{
+  gap: 0.5rem;
+}
+.input-group{
+  margin-bottom: 0.5rem;
+}
+.error-message{
+  margin-top: 0;
+}
 /* Keep all previous address styles from the other component */
 
 /* Success Page Styles */

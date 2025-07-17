@@ -33,7 +33,7 @@ function App() {
 
             {/* Protected Dashboard */}
             <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard user={{name:"Evano"}} />} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Route>
 

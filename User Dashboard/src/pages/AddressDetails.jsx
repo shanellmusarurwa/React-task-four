@@ -18,8 +18,7 @@ const AddressDetails = () => {
       .min(5, 'Must be exactly 5 digits')
       .max(5, 'Must be exactly 5 digits')
   });
-
-  const formik = useFormik({
+const formik = useFormik({
     initialValues: {
       streetAddress: '',
       apartment: '',
@@ -28,10 +27,30 @@ const AddressDetails = () => {
       zipCode: ''
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
-      navigate('/registration-success'); // Changed from '/registration-complete' to '/registration-success'
+    onSubmit: async (values) => {
+      try {
+        
+        const personalInfo = JSON.parse(localStorage.getItem('personalInfo') || {});
+        
+        
+        const userData = {
+          ...personalInfo,
+          address: values
+        };
+
+      
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
+    
+        console.log('User created:', userData);
+        
+    
+        navigate('/registration-success');
+        
+      } catch (error) {
+        console.error('Error saving user data:', error);
+        
+      }
     },
   });
 

@@ -84,7 +84,6 @@ const Register = () => {
 
         <form onSubmit={formik.handleSubmit} className="register-form">
           <div className="input-group">
-            <label>Email address</label>
             <input
               id="email"
               name="email"
@@ -101,7 +100,6 @@ const Register = () => {
           </div>
 
           <div className="input-group">
-            <label>Password</label>
             <input
               id="password"
               name="password"
@@ -118,7 +116,7 @@ const Register = () => {
             )}
           </div>
 
-          <button type="submit" className="register-btn" disabled={loading}>
+          <button type="submit" className="btn" disabled={loading}>
             {loading ? 'Creating account...' : 'Create account'}
           </button>
 

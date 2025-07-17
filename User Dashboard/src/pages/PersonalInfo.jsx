@@ -1,19 +1,26 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { FaCalendarAlt, FaChevronDown } from 'react-icons/fa';
 import '../styles/auth.css';
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
+  const [showCountryCodes, setShowCountryCodes] = useState(false);
+  const countryCodes = [
+    { code: '+598', name: 'Uruguay' },
+    { code: '+1', name: 'USA/Canada' },
+    { code: '+44', name: 'UK' },
+    { code: '+27', name: 'South Africa' },
+    { code: '+263', name: 'Zimbabwe' }
+  ];
 
-  // Form validation schema
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .required('Full name is required')
       .min(3, 'Must be at least 3 characters'),
-    gender: Yup.string()
-      .required('Gender is required'),
+    gender: Yup.string().required('Gender is required'),
     phone: Yup.string()
       .matches(/^\+?[0-9\s-]+$/, 'Invalid phone number')
       .required('Phone number is required'),
@@ -28,17 +35,21 @@ const PersonalInfo = () => {
       gender: '',
       phone: '',
       birthday: '',
+      countryCode: '+598',
       phoneVisible: false
     },
     validationSchema,
     onSubmit: (values) => {
-      // Handle form submission
       console.log(values);
-      navigate('/address-form'); // Changed from '/next-step' to '/address-search'
+      navigate('/address-form');
     },
   });
 
-  const [countryCode, setCountryCode] = useState('+598');
+  const handleCountryCodeSelect = (code) => {
+    formik.setFieldValue('countryCode', code);
+    setShowCountryCodes(false);
+  };
+
 
   return (
     <div className="personal-info-container">
@@ -50,13 +61,12 @@ const PersonalInfo = () => {
 
         <form onSubmit={formik.handleSubmit} className="personal-info-form">
           {/* Full Name */}
-          <div className="input-group">
-            <label htmlFor="fullName">Full name</label>
+          <div className="input-field">
             <input
               id="fullName"
               name="fullName"
               type="text"
-              placeholder="Enter your full name"
+              placeholder="Full name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.fullName}
@@ -68,10 +78,8 @@ const PersonalInfo = () => {
           </div>
 
           {/* Gender */}
-          <div className="input-group">
-
-            <div className="gender-options">
-               <label>Gender</label>
+          <div className="gender-field">
+            <div className="gender-label">Gender: 
               <label className="radio-option">
                 <input
                   type="radio"
@@ -79,7 +87,6 @@ const PersonalInfo = () => {
                   value="male"
                   checked={formik.values.gender === 'male'}
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
                 />
                 <span className="radio-label">Male</span>
               </label>
@@ -90,7 +97,6 @@ const PersonalInfo = () => {
                   value="female"
                   checked={formik.values.gender === 'female'}
                   onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
                 />
                 <span className="radio-label">Female</span>
               </label>
@@ -100,37 +106,36 @@ const PersonalInfo = () => {
             )}
           </div>
 
-          {/* Phone Number Visibility */}
+          {/* Phone Visibility */}
           <div className="visibility-notice">
-            <input
-              type="checkbox"
-              id="phoneVisible"
-              name="phoneVisible"
-              checked={formik.values.phoneVisible}
-              onChange={formik.handleChange}
-            />
-            <label htmlFor="phoneVisible">The phone number and birthday are only visible to you</label>
+            <strong>The phone number and birthday are only visible to you</strong>
           </div>
 
           {/* Phone Number */}
-          <div className="input-group">
-            <label htmlFor="phone">Phone number</label>
-            <div className="phone-input">
-              <select 
-                value={countryCode}
-                onChange={(e) => setCountryCode(e.target.value)}
-                className="country-code"
-              >
-                <option value="+27">+27 (SA)</option>
-                <option value="+263">+263 (ZIM)</option>
-                <option value="+44">+44 (UK)</option>
-                {/* Add more country codes as needed */}
-              </select>
+          <div className="phone-field">
+            <div className="phone-input-container">
+              <div className="country-code-selector" onClick={() => setShowCountryCodes(!showCountryCodes)}>
+                <span>{formik.values.countryCode}</span>
+                <FaChevronDown className="dropdown-icon" />
+                {showCountryCodes && (
+                  <div className="country-code-dropdown">
+                    {countryCodes.map((country) => (
+                      <div 
+                        key={country.code} 
+                        className="country-code-option"
+                        onClick={() => handleCountryCodeSelect(country.code)}
+                      >
+                        {country.code} {country.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               <input
                 id="phone"
                 name="phone"
                 type="tel"
-                placeholder="Enter your phone number"
+                placeholder="Phone number"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.phone}
@@ -141,24 +146,32 @@ const PersonalInfo = () => {
               <div className="error-message">{formik.errors.phone}</div>
             )}
           </div>
-
-          {/* Birthday */}
-          <div className="input-group">
-            <label htmlFor="birthday">Birthday <span className="optional">(Optional)</span></label>
-            <input
-              id="birthday"
-              name="birthday"
-              type="date"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.birthday}
-              className={formik.touched.birthday && formik.errors.birthday ? 'error' : ''}
-            />
-            {formik.touched.birthday && formik.errors.birthday && (
-              <div className="error-message">{formik.errors.birthday}</div>
-            )}
-            <p className="birthday-note">Let us know about your birthday so as not to miss a gift.</p>
-          </div>
+           {/* Birthday Field - Exact Match to Image */}
+<div className="birthday-field">
+  <div className="date-input-container">
+    <input
+      id="birthday"
+      name="birthday"
+      type="date"
+      onChange={formik.handleChange}
+      onBlur={formik.handleBlur}
+      value={formik.values.birthday}
+      className={formik.touched.birthday && formik.errors.birthday ? 'error' : ''}
+    />
+    <div className="date-content">
+      <span className="birthday-text">Birthday</span>
+      <div className="right-elements">
+        <span className="optional-text">Optional</span>
+        <FaCalendarAlt className="calendar-icon" />
+      </div>
+    </div>
+  </div>
+  <div className="birthday-note">Let us know about your birthday so as not to miss a gift.</div>
+  {formik.touched.birthday && formik.errors.birthday && (
+    <div className="error-message">{formik.errors.birthday}</div>
+  )}
+</div>
+           
 
           <button type="submit" className="save-btn">
             Save information

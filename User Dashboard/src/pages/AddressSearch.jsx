@@ -1,12 +1,14 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuth } from '../context/AuthContext';   
 import '../styles/auth.css';
 
 const AddressDetails = () => {
   const navigate = useNavigate();
+  const { currentUser } = useAuth(); 
 
-  // Form validation schema
+  
   const validationSchema = Yup.object().shape({
     streetAddress: Yup.string().required('Street address is required'),
     apartment: Yup.string(),
@@ -18,8 +20,7 @@ const AddressDetails = () => {
       .min(5, 'Must be exactly 5 digits')
       .max(5, 'Must be exactly 5 digits')
   });
-
-  const formik = useFormik({
+const formik = useFormik({
     initialValues: {
       streetAddress: '',
       apartment: '',
@@ -28,13 +29,46 @@ const AddressDetails = () => {
       zipCode: ''
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
-      navigate('/registration-success'); 
-    },
-  });
+    onSubmit: async (values) => {
+    try {
+      // 1. Safely get personal info from localStorage
+      let personalInfo = {};
+      try {
+        const storedData = localStorage.getItem('personalInfo');
+        personalInfo = storedData ? JSON.parse(storedData) : {};
+      } catch (parseError) {
+        console.warn('Could not parse personalInfo:', parseError);
+      }
 
+      // 2. Create complete user object
+      const userData = {
+        ...personalInfo,
+        address: {
+          street: values.streetAddress,
+          apartment: values.apartment,
+          city: values.city,
+          state: values.state,
+          zipCode: values.zipCode
+        }
+      };
+
+      // 3. Save to localStorage
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      // 4. Log success
+      console.log('User data saved:', userData);
+      
+      // 5. Navigate to success screen
+      navigate('/registration-success');
+      
+    } catch (error) {
+      console.error('Error saving user data:', error);
+      // Optionally show error to user
+      // setSubmissionError('Failed to save user data');
+    }
+  }
+  });
+ 
   return (
     <div className="address-container">
       <div className="address-card">
@@ -43,19 +77,18 @@ const AddressDetails = () => {
           <div className="progress-step">3 of 3</div>
         </div>
 
-        <form onSubmit={formik.handleSubmit} className="address-form">
+        <form onSubmit={formik.handleSubmit} className="manual-address-form">
           {/* Street Address */}
-          <div className="input-group">
-            <label htmlFor="streetAddress">Street address</label>
+          <div className="form-group">
+            <label htmlFor="streetAddress">Street Address</label>
             <input
               id="streetAddress"
               name="streetAddress"
               type="text"
-              placeholder="319 Balnbridge Street"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.streetAddress}
-              className={formik.touched.streetAddress && formik.errors.streetAddress ? 'error' : ''}
+              placeholder="319 Balnbridge Street"
             />
             {formik.touched.streetAddress && formik.errors.streetAddress && (
               <div className="error-message">{formik.errors.streetAddress}</div>
@@ -63,66 +96,63 @@ const AddressDetails = () => {
           </div>
 
           {/* Apartment (Optional) */}
-          <div className="input-group">
+          <div className="form-group">
             <label htmlFor="apartment">Apartment <span className="optional">(Optional)</span></label>
             <input
               id="apartment"
               name="apartment"
               type="text"
-              placeholder="Apt, suite, unit, etc."
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.apartment}
+              placeholder="Apt, suite, unit, etc."
             />
           </div>
 
           {/* City */}
-          <div className="input-group">
+          <div className="form-group">
             <label htmlFor="city">City</label>
             <input
               id="city"
               name="city"
               type="text"
-              placeholder="New York City"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.city}
-              className={formik.touched.city && formik.errors.city ? 'error' : ''}
+              placeholder="New York City"
             />
             {formik.touched.city && formik.errors.city && (
               <div className="error-message">{formik.errors.city}</div>
             )}
           </div>
 
-          {/* State and Zip Code - Side by Side */}
-          <div className="row-input-group">
-            <div className="input-group half-width">
+          {/* State and Zip Code */}
+          <div className="form-row">
+            <div className="form-group">
               <label htmlFor="state">State</label>
               <input
                 id="state"
                 name="state"
                 type="text"
-                placeholder="New York"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.state}
-                className={formik.touched.state && formik.errors.state ? 'error' : ''}
+                placeholder="New York"
               />
               {formik.touched.state && formik.errors.state && (
                 <div className="error-message">{formik.errors.state}</div>
               )}
             </div>
-            <div className="input-group half-width">
-              <label htmlFor="zipCode">Zip code</label>
+            <div className="form-group">
+              <label htmlFor="zipCode">Zip Code</label>
               <input
                 id="zipCode"
                 name="zipCode"
                 type="text"
-                placeholder="11233"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.zipCode}
-                className={formik.touched.zipCode && formik.errors.zipCode ? 'error' : ''}
+                placeholder="11233"
               />
               {formik.touched.zipCode && formik.errors.zipCode && (
                 <div className="error-message">{formik.errors.zipCode}</div>
@@ -130,8 +160,12 @@ const AddressDetails = () => {
             </div>
           </div>
 
-          <button type="submit" className="save-btn">
-            Save information
+          <button 
+            type="submit" 
+            className="submit-button"
+            disabled={!formik.isValid || formik.isSubmitting}
+          >
+            {formik.isSubmitting ? 'Saving...' : 'Save Information'}
           </button>
         </form>
       </div>

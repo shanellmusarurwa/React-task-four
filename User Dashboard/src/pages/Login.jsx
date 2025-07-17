@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
-import { loginSchema } from '../utils/validationSchemas';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF, FaApple } from 'react-icons/fa';
 import '../styles/auth.css';
@@ -59,94 +58,97 @@ const formik = useFormik({
   }
 });
 
-  return (
-    <div className="login-container">
-      <div className="login-card">
-        {/* Tabs for Register/Login */}
-        <div className="auth-tabs">
-          <button
-            className={`tab ${activeTab === 'register' ? 'active' : ''}`}
-            onClick={() => navigate('/register')}
-          >
-            Register
-          </button>
-          <button
-            className={`tab ${activeTab === 'login' ? 'active' : ''}`}
-            onClick={() => setActiveTab('login')}
-          >
-            Log in
-          </button>
-        </div>
 
-       
-        
-        {/* Social Icons */}
-        <div className="social-icons-top">
-          <div className="social-icon-circle">
-            <FaApple className="social-icon" />
-          </div>
-          <div className="social-icon-circle">
-            <FaFacebookF className="social-icon-1" />
-          </div>
-          <div className="social-icon-circle">
-            <FcGoogle className="social-icon" />
-          </div>
-        </div>
-
-        <p className="register-subtitle">or register with email</p>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <form onSubmit={formik.handleSubmit} className="login-form">
-          <div className="input-group">
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Email address example@mail.com"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              className={formik.touched.email && formik.errors.email ? 'error' : ''}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="error-message">{formik.errors.email}</div>
-            )}
-          </div>
-
-          <div className="input-group">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Password ********"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              className={formik.touched.password && formik.errors.password ? 'error' : ''}
-            />
-            {formik.touched.password && formik.errors.password && (
-              <div className="error-message">{formik.errors.password}</div>
-            )}
-          </div>
-
-          <div className="remember-me">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-            />
-            <label htmlFor="rememberMe">Remember me</label>
-          </div>
-
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login to Dashboard'}
-          </button>
-        </form>
+return (
+  <div className="login-container">
+    <div className="login-card">
+      {/* Tabs for Register/Login - keep exactly as is */}
+      <div className="auth-tabs">
+        <button
+          className={`tab ${activeTab === 'register' ? 'active' : ''}`}
+          onClick={() => navigate('/register')}
+        >
+          Register
+        </button>
+        <button
+          className={`tab ${activeTab === 'login' ? 'active' : ''}`}
+          onClick={() => setActiveTab('login')}
+        >
+          Log in
+        </button>
       </div>
-    </div>
-  );
-};
 
+      {/* Social Icons - keep exactly as is */}
+      <div className="social-icons-top">
+        <div className="social-icon-circle">
+          <FaApple className="social-icon" />
+        </div>
+        <div className="social-icon-circle">
+          <FaFacebookF className="social-icon-1" />
+        </div>
+        <div className="social-icon-circle">
+          <FcGoogle className="social-icon" />
+        </div>
+      </div>
+
+      <p className="register-subtitle">or register with email</p>
+
+      {error && <div className="error-message">{error}</div>}
+
+      <form onSubmit={formik.handleSubmit} className="login-form">
+        <div className="input-group">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email address example@mail.com"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+            className={formik.touched.email && formik.errors.email ? 'error' : ''}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="error-message">{formik.errors.email}</div>
+          )}
+        </div>
+
+        <div className="input-group">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password ********"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+            className={formik.touched.password && formik.errors.password ? 'error' : ''}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className="error-message">{formik.errors.password}</div>
+          )}
+        </div>
+
+        <button 
+          type="submit" 
+          className="btn" 
+          disabled={loading}
+          style={{ width: '100%' }} // This makes button same width as inputs
+        >
+          {loading ? 'Logging in...' : 'Login to Dashboard'}
+        </button>
+
+        <div className="remember-me">
+          <input
+            type="checkbox"
+            id="rememberMe"
+            checked={rememberMe}
+            onChange={() => setRememberMe(!rememberMe)}
+          />
+          <label htmlFor="rememberMe">Remember me</label>
+        </div>
+      </form>
+    </div>
+  </div>
+);
+};
 export default Login;
