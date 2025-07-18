@@ -1,8 +1,30 @@
-import React from 'react';
-import { FiSearch } from 'react-icons/fi';
+import React, { useState, useEffect } from 'react';
+import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
 import '../styles/Dashboard.css';
 
 const Dashboard = ({ user }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile && sidebarOpen) {
+        setSidebarOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [sidebarOpen]);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const customers = [
     {
       name: 'Jana Cooper',
@@ -70,108 +92,167 @@ const Dashboard = ({ user }) => {
     }
   ];
 
+  const filteredCustomers = customers.filter(customer => 
+    customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    customer.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    customer.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="dashboard-container">
-      <div className="sidebar">
+      {/* Mobile Header */}
+      {isMobile && (
+        <header className="mobile-header">
+          <button className="menu-toggle" onClick={toggleSidebar}>
+            {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
+          <h1>Hello {user?.name || 'Evano'}</h1>
+        </header>
+      )}
+
+      {/* Sidebar */}
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2>Dashboard</h2>
+          {isMobile && (
+            <button className="close-sidebar" onClick={toggleSidebar}>
+              <FiX size={20} />
+            </button>
+          )}
         </div>
-        <ul className="sidebar-menu">
-          <li className="active">
-            <span className="menu-icon">📊</span>
-            <span>Dashboard</span>
-          </li>
-          <li>
-            <span className="menu-icon">👥</span>
-            <span>Customers</span>
-          </li>
-          <li>
-            <span className="menu-icon">📝</span>
-            <span>Orders</span>
-          </li>
-          <li>
-            <span className="menu-icon">📊</span>
-            <span>Analytics</span>
-          </li>
-          <li>
-            <span className="menu-icon">✉️</span>
-            <span>Messages</span>
-          </li>
-          <li>
-            <span className="menu-icon">⚙️</span>
-            <span>Settings</span>
-          </li>
-          <li>
-            <span className="menu-icon">🚪</span>
-            <span>Logout</span>
-          </li>
-        </ul>
-      </div>
+        
+        <nav className="sidebar-nav">
+          <ul>
+            <li className="active">
+              <span className="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </li>
+            <li>
+              <span className="nav-icon">👥</span>
+              <span>Customers</span>
+            </li>
+            <li>
+              <span className="nav-icon">📝</span>
+              <span>Orders</span>
+            </li>
+            <li>
+              <span className="nav-icon">📊</span>
+              <span>Analytics</span>
+            </li>
+            <li>
+              <span className="nav-icon">✉️</span>
+              <span>Messages</span>
+            </li>
+            <li>
+              <span className="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </li>
+            <li>
+              <span className="nav-icon">🚪</span>
+              <span>Logout</span>
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-      <div className="main-content">
-        <div className="dashboard-header">
-          <div className="header-top">
-            <h1>Hello {user?.name || 'Evano'} 👋🏼,</h1>
+      {/* Overlay */}
+      {isMobile && sidebarOpen && (
+        <div className="sidebar-overlay" onClick={toggleSidebar}></div>
+      )}
+
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Desktop Header */}
+        {!isMobile && (
+          <header className="desktop-header">
+            <h1>Hello {user?.name || 'Evano'}, welcome back!</h1>
             <div className="search-container">
               <FiSearch className="search-icon" />
-              <input type="text" placeholder="Search..." className="search-input" />
+              <input 
+                type="text" 
+                placeholder="Search ..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-          </div>
-          </div>
+          </header>
+        )}
 
-          <div className="header-stats">
-            <div className="stat-card">
-              <div className="stat-icon">📊</div>
-              <div className="stat-info">
-                <div className="stat-number">5,423</div>
-                <div className="stat-label">Toolkit Customers</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">👥</div>
-              <div className="stat-info">
-                <div className="stat-number">1,893</div>
-                <div className="stat-label">New Customers</div>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">💰</div>
-              <div className="stat-info">
-                <div className="stat-number">$12,345</div>
-                <div className="stat-label">Active Now</div>
-              </div>
+        {/* Stats Cards */}
+        <section className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">📊</div>
+            <div className="stat-info">
+              <h3>5,423</h3>
+              <p>Toolkit Customers</p>
             </div>
           </div>
-        
-
-        <div className="customers-section">
-          <div className="section-header">
-            <h2>All Customers</h2>
-            <button className="active-btn">Active Members</button>
+          
+          <div className="stat-card">
+            <div className="stat-icon">👥</div>
+            <div className="stat-info">
+              <h3>1,893</h3>
+              <p>New Customers</p>
+            </div>
           </div>
+          
+          <div className="stat-card">
+            <div className="stat-icon">💰</div>
+            <div className="stat-info">
+              <h3>$12,345</h3>
+              <p>Active Now</p>
+            </div>
+          </div>
+        </section>
 
-          <div className="customers-table-container">
-            <table className="customers-table">
+        {/* Customers Section */}
+        <section className="customers-section">
+  <div className="section-header">
+    <div className="header-left">
+      <h2>All Customers</h2>
+      <span className="active-members-label">Active Members</span>
+    </div>
+
+    <div className="search-container">
+      <FiSearch className="search-icon" />
+      <input 
+        type="text" 
+        placeholder="Search ..." 
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    </div>
+
+    <div className="sort-dropdown">
+      <select className="filter-select">
+        <option>Newest</option>
+        <option>Oldest</option>
+      </select>
+    </div>
+  </div>
+
+          <div className="table-container">
+            <table>
               <thead>
                 <tr>
                   <th>Customer Name</th>
                   <th>Company</th>
                   <th>Phone Number</th>
-                  <th>Email</th>
+                  <th className="hide-on-mobile">Email</th>
                   <th>Country</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer, index) => (
+                {filteredCustomers.map((customer, index) => (
                   <tr key={index}>
                     <td>{customer.name}</td>
                     <td>{customer.company}</td>
                     <td>{customer.phone}</td>
-                    <td>{customer.email}</td>
+                    <td className="hide-on-mobile">{customer.email}</td>
                     <td>{customer.country}</td>
-                    <td>
-                      <span className={`status-badge ${customer.status.toLowerCase()}`}>
+                    <td> 
+                      <span className={`status ${customer.status.toLowerCase()}`}>
                         {customer.status}
                       </span>
                     </td>
@@ -182,24 +263,26 @@ const Dashboard = ({ user }) => {
           </div>
 
           <div className="table-footer">
-            <div>Showing data 1 to 8 of 256K entries</div>
+            <div className="showing-entries">
+              Showing data 1 to 8 of 256K entries
+            </div>
             <div className="pagination">
-              <button className="pagination-btn">{"<"}</button>
-              <button className="pagination-btn active">1</button>
-              <button className="pagination-btn">2</button>
-              <button className="pagination-btn">3</button>
-              <button className="pagination-btn">4</button>
-              <button className="pagination-btn">{">"}</button>
+              <button className="page-btn">{"<"}</button>
+              <button className="page-btn active">1</button>
+              <button className="page-btn">2</button>
+              <button className="page-btn">3</button>
+              <button className="page-btn">4</button>
+              <button className="page-btn">{">"}</button>
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="dashboard-footer">
           Downloaded from Fire...
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard; 
