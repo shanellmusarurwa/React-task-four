@@ -391,11 +391,12 @@ td {
   color: #00B087;
 }
 
-/* Mobile Sidebar Behavior */
-@media (max-width: 768px) {
+
+/* Mobile Sidebar Behavior (applies to all screens below 992px) */
+@media (max-width: 991px) {
   .sidebar {
     transform: translateX(-100%);
-    display: block; /* Ensure it's visible when toggled */
+    transition: transform 0.3s ease;
   }
   
   .sidebar.open {
@@ -408,54 +409,92 @@ td {
   
   .main-content {
     margin-left: 0;
-    padding-top: var(--mobile-header-height);
+    padding-top: calc(var(--mobile-header-height) + 1rem);
   }
   
-  /* Mobile table adjustments */
-  .table-container {
-    overflow-x: auto;
+  .menu-toggle {
+    display: block;
   }
-  
-  table {
-    min-width: 100%;
-  }
-  
-  /* Hide all columns except Name and Status */
-  th:not(:first-child):not(:last-child),
-  td:not(:first-child):not(:last-child) {
+}
+
+
+@media (max-width: 375px) {
+  .hide-on-mobile {
     display: none;
   }
   
-  /* Ensure first and last columns have proper spacing */
-  th:first-child,
-  td:first-child {
+  
+  table tr th:not(:first-child):not(:last-child),
+  table tr td:not(:first-child):not(:last-child) {
+    display: none;
+  }
+  
+  
+  table tr th:first-child,
+  table tr td:first-child {
     padding-left: 1rem;
   }
   
-  th:last-child,
-  td:last-child {
+  table tr th:last-child,
+  table tr td:last-child {
     padding-right: 1rem;
   }
 }
 
-/* For very small screens */
-@media (max-width: 480px) {
-  .stat-card {
-    padding: 1rem;
+@media (min-width: 376px) and (max-width: 424px) {
+  .hide-on-mobile {
+    display: none;
   }
   
-  .stat-icon {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
+  
+  table tr th:not(:first-child):not(:last-child),
+  table tr td:not(:first-child):not(:last-child) {
+    display: none;
+  }
+}
+
+
+@media (min-width: 425px) and (max-width: 767px) {
+  .hide-on-mobile {
+    display: none;
   }
   
-  .section-header {
-    flex-direction: column;
-    gap: 0.5rem;
+  
+  table tr th:nth-child(n+4):not(:last-child),
+  table tr td:nth-child(n+4):not(:last-child),
+  table tr th:nth-child(3),
+  table tr td:nth-child(3) {
+    display: none;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .hide-on-mobile {
+    display: table-cell;
   }
   
-  .search-container {
-    width: 100%;
+  table tr th,
+  table tr td {
+    display: table-cell !important;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+  
+  .menu-toggle {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: var(--sidebar-width);
+  }
+  
+  .hide-on-mobile {
+    display: table-cell;
   }
 }
