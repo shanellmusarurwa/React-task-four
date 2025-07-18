@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
-import '../styles/Dashboard.css';
+import '../styles/dashboard.css';
 
 const Dashboard = ({ user }) => {
   const [isMobile, setIsMobile] = useState(false);
