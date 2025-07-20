@@ -3,51 +3,53 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useRegistration } from '../context/RegistrationContext';
-import * as Yup from 'yup';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/config';
 import { registerSchema } from '../utils/validationSchemas';
 import { FaFacebookF, FaApple } from 'react-icons/fa';
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from 'react-icons/fc';
 import '../styles/auth.css';
-
-
- 
 
 const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [newsletter, setNewsletter] = useState(false);
-  const { updateRegistrationData } = useRegistration();
   const [activeTab, setActiveTab] = useState('register');
   const navigate = useNavigate();
   const { register } = useAuth();
-
-   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
-    password: Yup.string()
-      .min(8, 'Must be at least 8 characters')
-      .required('Password is required'),
-  });
-
+  const { updateRegistrationData } = useRegistration();
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      acceptPromotions: false
+      acceptPromotions: false,
     },
-    validationSchema,
-    onSubmit: (values) => {
-      navigate('/personal-info');
-    }
+    validationSchema: registerSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      setError('');
+      try {
+        await register(values.email, values.password);
+
+        updateRegistrationData({
+          email: values.email,
+          password: values.password,
+          acceptPromotions: values.acceptPromotions,
+        });
+
+        navigate('/personal-info');
+      } catch (err) {
+        console.error('Registration Error:', err.message);
+        setError(err.message || 'Failed to create account');
+      } finally {
+        setLoading(false);
+      }
+    },
   });
-  
+
   return (
     <div className="register-container">
       <div className="register-card">
+
+  
         <div className="auth-tabs">
           <button
             className={`tab ${activeTab === 'register' ? 'active' : ''}`}
@@ -64,16 +66,14 @@ const Register = () => {
         </div>
 
         
-        
-        {/* Social Icons */}
         <div className="social-icons-top">
-          <div className="social-icon-circle">
+          <div className="social-icon-circle" onClick={() => console.log('TODO: Apple login')}>
             <FaApple className="social-icon" />
           </div>
-          <div className="social-icon-circle">
+          <div className="social-icon-circle" onClick={() => console.log('TODO: Facebook login')}>
             <FaFacebookF className="social-icon-1" />
           </div>
-          <div className="social-icon-circle">
+          <div className="social-icon-circle" onClick={() => console.log('TODO: Google login')}>
             <FcGoogle className="social-icon" />
           </div>
         </div>
@@ -83,6 +83,7 @@ const Register = () => {
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={formik.handleSubmit} className="register-form">
+          
           <div className="input-group">
             <input
               id="email"
@@ -99,6 +100,7 @@ const Register = () => {
             )}
           </div>
 
+          
           <div className="input-group">
             <input
               id="password"
@@ -116,22 +118,28 @@ const Register = () => {
             )}
           </div>
 
+          
           <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create account'}
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
 
+          
           <div className="newsletter-checkbox">
             <input
               type="checkbox"
-              id="newsletter"
-              checked={newsletter}
-              onChange={() => setNewsletter(!newsletter)}
+              id="acceptPromotions"
+              name="acceptPromotions"
+              checked={formik.values.acceptPromotions}
+              onChange={formik.handleChange}
             />
-            <label htmlFor="newsletter">Send me news and promotions</label>
+            <label htmlFor="acceptPromotions">Send me news and promotions</label>
           </div>
 
+          
           <div className="terms-text">
-            By clicking, you agree to our <Link to="/terms">Terms & Conditions</Link> and <Link to="/privacy">Privacy Policy</Link>
+            By clicking, you agree to our{' '}
+            <Link to="/terms">Terms & Conditions</Link> and{' '}
+            <Link to="/privacy">Privacy Policy</Link>.
           </div>
         </form>
       </div>

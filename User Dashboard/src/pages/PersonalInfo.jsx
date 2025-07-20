@@ -8,6 +8,7 @@ import '../styles/auth.css';
 const PersonalInfo = () => {
   const navigate = useNavigate();
   const [showCountryCodes, setShowCountryCodes] = useState(false);
+
   const countryCodes = [
     { code: '+598', name: 'Uruguay' },
     { code: '+1', name: 'USA/Canada' },
@@ -16,10 +17,10 @@ const PersonalInfo = () => {
     { code: '+263', name: 'Zimbabwe' }
   ];
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object({
     fullName: Yup.string()
-      .required('Full name is required')
-      .min(3, 'Must be at least 3 characters'),
+      .min(3, 'Must be at least 3 characters')
+      .required('Full name is required'),
     gender: Yup.string().required('Gender is required'),
     phone: Yup.string()
       .matches(/^\+?[0-9\s-]+$/, 'Invalid phone number')
@@ -42,7 +43,7 @@ const PersonalInfo = () => {
     onSubmit: (values) => {
       console.log(values);
       navigate('/address-form');
-    },
+    }
   });
 
   const handleCountryCodeSelect = (code) => {
@@ -50,17 +51,20 @@ const PersonalInfo = () => {
     setShowCountryCodes(false);
   };
 
-
   return (
     <div className="personal-info-container">
       <div className="personal-info-card">
+
+        
         <div className="progress-header">
           <h2>Personal information</h2>
           <div className="progress-step">2 of 3</div>
         </div>
 
+        
         <form onSubmit={formik.handleSubmit} className="personal-info-form">
-          {/* Full Name */}
+
+          
           <div className="input-field">
             <input
               id="fullName"
@@ -77,9 +81,9 @@ const PersonalInfo = () => {
             )}
           </div>
 
-          {/* Gender */}
+        
           <div className="gender-field">
-            <div className="gender-label">Gender: 
+            <div className="gender-label">Gender:
               <label className="radio-option">
                 <input
                   type="radio"
@@ -106,22 +110,25 @@ const PersonalInfo = () => {
             )}
           </div>
 
-          {/* Phone Visibility */}
+          
           <div className="visibility-notice">
             <strong>The phone number and birthday are only visible to you</strong>
           </div>
 
-          {/* Phone Number */}
+          
           <div className="phone-field">
             <div className="phone-input-container">
-              <div className="country-code-selector" onClick={() => setShowCountryCodes(!showCountryCodes)}>
+              <div
+                className="country-code-selector"
+                onClick={() => setShowCountryCodes(!showCountryCodes)}
+              >
                 <span>{formik.values.countryCode}</span>
                 <FaChevronDown className="dropdown-icon" />
                 {showCountryCodes && (
                   <div className="country-code-dropdown">
                     {countryCodes.map((country) => (
-                      <div 
-                        key={country.code} 
+                      <div
+                        key={country.code}
                         className="country-code-option"
                         onClick={() => handleCountryCodeSelect(country.code)}
                       >
@@ -131,6 +138,7 @@ const PersonalInfo = () => {
                   </div>
                 )}
               </div>
+
               <input
                 id="phone"
                 name="phone"
@@ -146,33 +154,36 @@ const PersonalInfo = () => {
               <div className="error-message">{formik.errors.phone}</div>
             )}
           </div>
-           {/* Birthday Field - Exact Match to Image */}
-<div className="birthday-field">
-  <div className="date-input-container">
-    <input
-      id="birthday"
-      name="birthday"
-      type="date"
-      onChange={formik.handleChange}
-      onBlur={formik.handleBlur}
-      value={formik.values.birthday}
-      className={formik.touched.birthday && formik.errors.birthday ? 'error' : ''}
-    />
-    <div className="date-content">
-      <span className="birthday-text">Birthday</span>
-      <div className="right-elements">
-        <span className="optional-text">Optional</span>
-        <FaCalendarAlt className="calendar-icon" />
-      </div>
-    </div>
-  </div>
-  <div className="birthday-note">Let us know about your birthday so as not to miss a gift.</div>
-  {formik.touched.birthday && formik.errors.birthday && (
-    <div className="error-message">{formik.errors.birthday}</div>
-  )}
-</div>
-           
 
+          
+          <div className="birthday-field">
+            <div className="date-input-container">
+              <input
+                id="birthday"
+                name="birthday"
+                type="date"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.birthday}
+                className={formik.touched.birthday && formik.errors.birthday ? 'error' : ''}
+              />
+              <div className="date-content">
+                <span className="birthday-text">Birthday</span>
+                <div className="right-elements">
+                  <span className="optional-text">Optional</span>
+                  <FaCalendarAlt className="calendar-icon" />
+                </div>
+              </div>
+            </div>
+            <div className="birthday-note">
+              Let us know about your birthday so as not to miss a gift.
+            </div>
+            {formik.touched.birthday && formik.errors.birthday && (
+              <div className="error-message">{formik.errors.birthday}</div>
+            )}
+          </div>
+
+          
           <button type="submit" className="save-btn">
             Save information
           </button>
